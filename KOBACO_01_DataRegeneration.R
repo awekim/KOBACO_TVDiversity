@@ -14,7 +14,7 @@
 library(dplyr)
 library(magrittr)
 
-year <- 2022
+year <- 2023
 
 ### SWD
 temp.list <- 
@@ -47,7 +47,7 @@ for(i in 1:length(temp.list)){
   temp <- read.table(paste0("../6.김경외 연구자님/",year,"/t_tv_live_",year,"/DEM_WEH/",temp.list[i]))
   weh.df <- weh.df %>%
     rbind(temp %>% mutate(HouseholdID = substr(V1,1,28), NWeight = substr(V1,29,30),
-                          Reg = substr(V1,31,33), Weight = substr(V1, 34,41)) %>%
+                          Reg = substr(V1,31,33), Weight = as.numeric(substr(V1, 34,41))) %>%
             select(-c("V1")) %>% mutate(Year=substr(temp.list[i],3,4),
                                         Month=substr(temp.list[i],5,6),
                                         Day=substr(temp.list[i],7,8)))
@@ -66,7 +66,7 @@ for(i in 1:length(temp.list)){
   temp <- read.table(paste0("../6.김경외 연구자님/",year,"/t_tv_live_",year,"/DEM_WEH/",temp.list[i]))
   dem.df <- dem.df %>%
     rbind(temp %>% mutate(HouseholdID = substr(V1,1,28), IndividualID = substr(V1,29,30),
-                          IndWeight = substr(V1,31,38), Reg = substr(V1,39,39)) %>%
+                          IndWeight = as.numeric(substr(V1,31,38)), Reg = substr(V1,39,39)) %>%
             select(-c("V1")) %>% 
             rename(Sex=V2, Job=V3, Household=V4, Teen=V6) %>%
             mutate(Machines=substr(V5,1,1), Cable=substr(V5,2,2), 
