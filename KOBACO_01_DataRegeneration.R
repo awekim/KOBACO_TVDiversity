@@ -13,8 +13,9 @@
 
 library(dplyr)
 library(magrittr)
+library(lubridate)
 
-year <- 2023
+year <- 2022
 
 ### SWD
 temp.list <- 
@@ -28,9 +29,12 @@ for(i in 1:length(temp.list)){
                         Channel = substr(V1,31,34), StartTime = substr(V1, 35,40),
                         EndTime = substr(V1, 41,46), TV= substr(V1, 47,47),
                         AudienceType=substr(V1, 48,48)) %>%
-            select(-c("V1")) %>% mutate(Year=substr(temp.list[i],3,4),
-                                        Month=substr(temp.list[i],5,6),
-                                        Day=substr(temp.list[i],7,8)))
+            select(-c("V1")) %>% mutate(Date=ymd(substr(temp.list[i],3,8))) %>% 
+            mutate(Year=year(Date), Month=month(Date), Day=day(Date), 
+                   Day_label=wday(Date, label=TRUE)) %>% select(-c("Date")))
+            # mutate(Year=substr(temp.list[i],3,4),
+            #                             Month=substr(temp.list[i],5,6),
+            #                             Day=substr(temp.list[i],7,8)))
   print(i)
 }
 swd.df <- swd.df[2:nrow(swd.df),]
@@ -48,9 +52,9 @@ for(i in 1:length(temp.list)){
   weh.df <- weh.df %>%
     rbind(temp %>% mutate(HouseholdID = substr(V1,1,28), NWeight = substr(V1,29,30),
                           Reg = substr(V1,31,33), Weight = as.numeric(substr(V1, 34,41))) %>%
-            select(-c("V1")) %>% mutate(Year=substr(temp.list[i],3,4),
-                                        Month=substr(temp.list[i],5,6),
-                                        Day=substr(temp.list[i],7,8)))
+            select(-c("V1")) %>% %>% mutate(Date=ymd(substr(temp.list[i],3,8))) %>% 
+            mutate(Year=year(Date), Month=month(Date), Day=day(Date), 
+                   Day_label=wday(Date, label=TRUE)) %>% select(-c("Date")))
   print(i)
 }
 weh.df <- weh.df[2:nrow(weh.df),]
@@ -67,16 +71,15 @@ for(i in 1:length(temp.list)){
   dem.df <- dem.df %>%
     rbind(temp %>% mutate(HouseholdID = substr(V1,1,28), IndividualID = substr(V1,29,30),
                           IndWeight = as.numeric(substr(V1,31,38)), Reg = substr(V1,39,39)) %>%
-            select(-c("V1")) %>% 
+            select(-c("V1")) %>% mutate(Date=ymd(substr(temp.list[i],3,8))) %>% 
+            mutate(Year=year(Date), Month=month(Date), Day=day(Date), 
+                   Day_label=wday(Date, label=TRUE)) %>% select(-c("Date")) %>%  
             rename(Sex=V2, Job=V3, Household=V4, Teen=V6) %>%
             mutate(Machines=substr(V5,1,1), Cable=substr(V5,2,2), 
-                   SkyLife=substr(V7,1,1),IPTV=substr(V7,2,2),
-                   Year=substr(temp.list[i],3,4),
-                   Month=substr(temp.list[i],5,6),
-                   Day=substr(temp.list[i],7,8)) %>%
+                   SkyLife=substr(V7,1,1),IPTV=substr(V7,2,2)) %>%
             select(HouseholdID, IndividualID, IndWeight, Reg, Sex, Job,
                    Household, Teen, Machines, Cable, SkyLife, IPTV, 
-                   Year, Month, Day))
+                   Year, Month, Day, Day_label))
   
   print(i)
 }
