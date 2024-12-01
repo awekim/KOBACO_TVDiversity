@@ -2,7 +2,7 @@
 
 - This repository contains samples codes for analysing KOBACO data
 
-< Table Description>
+< Table Description >
 - swd: 실시간TV 개인시청기록
   - HouseholdID
   - IndividualID： 손님, Baby(4세미만), 버튼입력 없이 시청한 경우 50~99번으로 표기
