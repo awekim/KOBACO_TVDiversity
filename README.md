@@ -6,4 +6,4 @@
 
 1. KOBACO_01_DataRegeration.R: Import raw KOBACO sets and transform them into analyzable form
 2. KOBACO_02_EDA.R: Data Exploration & Pre-processing
-3. KOBACO_03_DiversityAnalysis.R
+3. KOBACO_03_DiversityAnalysis.R: Measure TV-Watching Diversity and TV-Channel Similarity
