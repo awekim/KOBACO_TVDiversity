@@ -324,4 +324,25 @@ write.csv(cluster_summary,
 # iptv_f: VOD패키지 경우
 # iptv_g: IPTV 비가입 경우
 
+####################################################################################
+### Descriptive Statistics for clusters
+####################################################################################
 
+load(file="R file/weh.df.month.RData")
+load(file="R file/dem.df.all.sum.RData")
+
+dem.df.all.sum %>% select(HouseholdID, cluster) %>% unique %>% 
+  left_join(weh.df.month %>% select(HouseholdID,period,Reg,Reg.label) %>% unique) %>%
+  mutate(cluster.label=case_when(cluster==1 ~ "1-소형 가구, 제한된 직업군",
+                                 cluster==2 ~ "2-대가족, 직업 및 미디어 다양성",
+                                 cluster==3 ~ "3-중형 가구, 농업 및 숙련직 중심",
+                                 cluster==4 ~ "4-대형 가구, 직업 다양성",
+                                 cluster==5 ~ "5-중형 가구, 직업 분포 균형",
+                                 cluster==6 ~ "6-기술 중심 중형 가구")) %>%
+  filter(is.na(Reg.label)==FALSE) %>%
+  group_by(Reg, Reg.label, cluster.label) %>%
+  count() %>%
+  ggplot(aes(x=Reg.label,y=n,fill=cluster.label)) + 
+  geom_bar(stat='identity', position='dodge') + theme_bw() + 
+  theme(legend.position="bottom")
+  
