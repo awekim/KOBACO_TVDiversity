@@ -1,5 +1,7 @@
 # KOBACO_TVDiversity
-- 프로그램 시청 다양성과 연관밀도 분석을 활용한 미디어 시청 패턴 분석
+# "프로그램 시청 다양성과 연관밀도 분석을 활용한 미디어 시청 패턴 분석"
+#### Prof. Keungoui Kim (Ph.d. in Economics) 
+#### School of Applied Artificial Intelligence, Handong Global University 
 
 - This repository contains samples codes for analysing KOBACO data
 
