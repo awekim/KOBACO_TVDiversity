@@ -1,15 +1,10 @@
 #######################################################################
 ##  Made by: Dr. Keungoui Kim
 ##  Title: KOBACO Project 01. Data Regeneration
-##  goal : Data Regeneration
+##  goal : Import raw KOBACO sets and transform them into analyzable form
 ##  Data set: KOBACO
-##  Time Span: 
-##  Variables
-##      Input: 
-##      Output:  
-##  Methodology: SQL
-##  Time-stamp: :  
 ##  Notice :
+#######################################################################
 
 library(dplyr)
 library(magrittr)
