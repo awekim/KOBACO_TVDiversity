@@ -1,6 +1,8 @@
 # KOBACO_project
 
 - This repository contains samples codes for analysing KOBACO data
+
+< Table Description>
 - swd: 실시간TV 개인시청기록
   - HouseholdID
   - IndividualID： 손님, Baby(4세미만), 버튼입력 없이 시청한 경우 50~99번으로 표기
@@ -10,7 +12,7 @@
   - TV
   - AudienceType
   - Date
-- weh: 가구 가중치
+- weh: 가구 비가중치
   - HouseholdID
   - NWeight
   - Reg
