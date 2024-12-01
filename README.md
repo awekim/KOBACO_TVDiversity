@@ -4,6 +4,6 @@
 
 ##### This repository contains samples codes for analysing KOBACO data
 
-1. KOBACO_01_DataRegeration.R
-2. KOBACO_02_EDA.R
+1. KOBACO_01_DataRegeration.R: Import raw KOBACO sets and transform them into analyzable form
+2. KOBACO_02_EDA.R: Data Exploration & Pre-processing
 3. KOBACO_03_DiversityAnalysis.R
