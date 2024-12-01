@@ -123,6 +123,7 @@ swd.df.month %>%
   group_by(Channel.label) %>%
   summarize(WatchTime=sum(WatchTime), all.WT=mean(all.WT)) %>% arrange(desc(WatchTime)) %>%
   mutate(prop=WatchTime/all.WT) %>% 
+  data.frame
   slice(1:10)
 
 swd.df.month %>% 
@@ -151,15 +152,29 @@ swd.df.month %>%
   left_join(weh.df.month %>% select(HouseholdID,period,Reg,Reg.label) %>% unique) %>%
   filter(Reg.label %in% c("서울","경기","세종","대전","대구","광주")) %>%
   group_by(period,Reg,Reg.label) %>%
-  summarize(Channel.count=length(unique(Channel.label))) %>% 
+  summarize(Channel.count=length(unique(Channel.label)),
+            WatchTime=sum(WatchTime)) %>% 
   data.frame %>%
   ggplot(aes(x=period,y=Channel.count,color=Reg.label,group=Reg.label)) +
   geom_line(size=2) + 
   geom_text(data = . %>% group_by(Reg.label) %>% filter(period == max(period)),
             aes(label=Reg.label), size=7, hjust=-0.1, vjust=0.5) +
-  ylab("시점") + xlab("고유 시청 채널 수") + 
-  theme_bw()
+  ylab("고유 시청 채널 수시점") + xlab("시점") + theme_bw() +
+  theme(legend.position = 'bottom') 
 
+swd.df.month %>% 
+  left_join(weh.df.month %>% select(HouseholdID,period,Reg,Reg.label) %>% unique) %>%
+  filter(Reg.label %in% c("서울","경기","세종","대전","대구","광주")) %>%
+  group_by(period,Reg,Reg.label) %>%
+  summarize(Channel.count=length(unique(Channel.label)),
+            WatchTime=sum(WatchTime)) %>% 
+  data.frame %>%
+  ggplot(aes(x=period,y=WatchTime,color=Reg.label,group=Reg.label)) +
+  geom_line(size=2) + 
+  geom_text(data = . %>% group_by(Reg.label) %>% filter(period == max(period)),
+            aes(label=Reg.label), size=7, hjust=-0.1, vjust=0.5) +
+  ylab("TV 시청 시간") + xlab("시점") + theme_bw() +
+  theme(legend.position = 'bottom') 
 
 ####################################################################################
 ### Aggregate Individual-level to Household-level data Set
