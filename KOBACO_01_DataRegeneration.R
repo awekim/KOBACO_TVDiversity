@@ -15,7 +15,7 @@ library(dplyr)
 library(magrittr)
 library(lubridate)
 
-year <- 2022
+year <- 2023
 
 ### SWD
 temp.list <- 
@@ -52,7 +52,7 @@ for(i in 1:length(temp.list)){
   weh.df <- weh.df %>%
     rbind(temp %>% mutate(HouseholdID = substr(V1,1,28), NWeight = substr(V1,29,30),
                           Reg = substr(V1,31,33), Weight = as.numeric(substr(V1, 34,41))) %>%
-            select(-c("V1")) %>% %>% mutate(Date=ymd(substr(temp.list[i],3,8))) %>% 
+            select(-c("V1")) %>% mutate(Date=ymd(substr(temp.list[i],3,8))) %>% 
             mutate(Year=year(Date), Month=month(Date), Day=day(Date), 
                    Day_label=wday(Date, label=TRUE)) %>% select(-c("Date")))
   print(i)
@@ -85,4 +85,48 @@ for(i in 1:length(temp.list)){
 }
 dem.df <- dem.df[2:nrow(dem.df),]
 save(dem.df, file=paste0("R file/dem.",year,".RData"))
+
+### Create integrated weh.df
+# year <- 2022
+# load(file=paste0("R file/weh.",year,".RData"))
+# temp <- weh.df
+# year <- 2023
+# load(file=paste0("R file/weh.",year,".RData"))
+# weh.df.all <- rbind(temp, weh.df)
+# rm(weh.df, temp)
+# save(weh.df.all, file="R file/weh.df.all.RData")
+
+### Create integrated swd.df
+# year <- 2022
+# load(file=paste0("R file/swd.",year,".RData"))
+# temp <- swd.df
+# year <- 2023
+# load(file=paste0("R file/swd.",year,".RData"))
+# swd.df.all <- rbind(temp, swd.df)
+# rm(swd.df, temp)
+# swd.df.all %<>% 
+#   mutate(StartTime =gsub("(\\d{2})(?!$)", "\\1:", StartTime, perl = TRUE) |> 
+#            lubridate::hms()) %>%
+#   mutate(EndTime =gsub("(\\d{2})(?!$)", "\\1:", EndTime, perl = TRUE) |> 
+#            lubridate::hms()) %>%
+#   mutate(WatchTime=EndTime-StartTime)
+# library(readxl)
+# channel.df <- read_excel('SWD_Channel_2022.xlsx') %>%
+#   rename(Channel='SWD 채널코드', Channel.label='채널명') %>% 
+#   mutate(Year=2022) %>%
+#   rbind(read_excel('SWD_Channel_2023.xlsx') %>%
+#           rename(Channel='SWD 채널코드', Channel.label='채널명') %>% 
+#           mutate(Year=2023))
+# swd.df.all %<>% left_join(channel.df)
+# save(swd.df.all, file="R file/swd.df.all.RData")
+
+### Create integrated dem.df
+# year <- 2022
+# load(file=paste0("R file/dem.",year,".RData"))
+# temp <- dem.df
+# year <- 2023
+# load(file=paste0("R file/dem.",year,".RData"))
+# dem.df.all <- rbind(temp, dem.df)
+# rm(dem.df, temp)
+# save(dem.df.all, file="R file/dem.df.all.RData")
 
